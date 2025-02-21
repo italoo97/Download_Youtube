@@ -7,8 +7,12 @@ def download_youtube_video(url, output_path="."):
         ydl_opts = {
             'format': 'best',  # best quality
             'outtmpl': f'{output_path}/%(title)s.%(ext)s',  # Name saved
+            'overwrites': True,
+            'verbose': True,
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info_dict = ydl.extract_info(url, download=False)
+            print(f"O arquivo será salvo em: {ydl.prepare_filename(info_dict)}")
             ydl.download([url])
         print("Download concluído!")
     except Exception as e:
